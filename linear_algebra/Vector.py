@@ -1,3 +1,5 @@
+import math
+from ._global import ACCURACY
 class Vector():
 
     def __init__(self,lst):
@@ -5,6 +7,12 @@ class Vector():
 
     def __iter__(self):
         return self._values.__iter__()
+    #向量的模
+    def norm(self):
+        return math.sqrt(sum(e**2 for e in self))
+    #向量的方向
+    def normalize(self):
+        return Vector(self._values) / self.norm()
 
     #零向量
     @classmethod
@@ -17,7 +25,11 @@ class Vector():
 
     def __rmul__(self, k):
         return Vector([k * e for e in self])
-
+    #数量除法
+    def __truediv__(self, k):
+        if k < ACCURACY:
+            raise ZeroDivisionError("k CANT BE Zero")
+        return Vector([1/k * e for e in self])
     # 向量取正/负
     def __pos__(self):
         return Vector([1 * e for e in self])
