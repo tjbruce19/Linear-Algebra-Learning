@@ -23,3 +23,5 @@ if __name__ == "__main__":
         print(zero.normalize())
     except ZeroDivisionError:
         print("zero vector {} can't be normal".format(zero) )
+
+    print(vec.dot(vec2))

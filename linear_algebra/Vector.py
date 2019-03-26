@@ -13,7 +13,10 @@ class Vector():
     #向量的方向
     def normalize(self):
         return Vector(self._values) / self.norm()
-
+    #两个向量的点乘
+    def dot(self,other):
+        assert len(self) == len(other), "ERROR:Length vector must be same."
+        return sum(a * b for a,b in zip(self,other))
     #零向量
     @classmethod
     def zero(cls, dim):
