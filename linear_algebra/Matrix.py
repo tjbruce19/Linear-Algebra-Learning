@@ -75,3 +75,7 @@ class Maxtrix():
         return "Matrix = ({})".format(self._values)
 
     __str__ = __repr__
+
+    #矩阵的转置
+    def T(self):
+        return Maxtrix([[e for e in self.col_vector(i)] for i in range(self.col_num())])

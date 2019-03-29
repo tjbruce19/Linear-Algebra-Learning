@@ -16,3 +16,5 @@ if __name__=="__main__":
     matr1 = Maxtrix([[1,2,2],[3,4,4],[2,3,2]])
     print(matrix.dot(vec))
     print(matrix.dot(matr1))
+
+    print(matrix.T())
