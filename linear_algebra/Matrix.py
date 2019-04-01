@@ -1,5 +1,5 @@
 from .Vector import Vector
-class Maxtrix():
+class Matrix():
 
     def __init__(self,list):
         self._values = [row[:] for row in list]
@@ -7,19 +7,19 @@ class Maxtrix():
     def __add__(self, other):
         assert self.shape() == other.shape(),"The shape of {} and {} is not same".format\
             (self,other)
-        return Maxtrix([[a+b for a,b in zip(self.row_vector(i),other.row_vector(i))]
+        return Matrix([[a+b for a,b in zip(self.row_vector(i),other.row_vector(i))]
                        for i in range(self.row_num())])
 
     def __sub__(self, other):
         assert self.shape() == other.shape(), "The shape of {} and {} is not same".format \
             (self, other)
-        return Maxtrix([[a - b for a, b in zip(self.row_vector(i), other.row_vector(i))]
+        return Matrix([[a - b for a, b in zip(self.row_vector(i), other.row_vector(i))]
                         for i in range(self.row_num())])
     #矩阵数量乘法
     def __mul__(self, k):
-        return Maxtrix([[k * e for e in self.row_vector(i)] for i in range(self.row_num())])
+        return Matrix([[k * e for e in self.row_vector(i)] for i in range(self.row_num())])
     def __rmul__(self, k):
-        return Maxtrix([[k * e for e in self.row_vector(i)] for i in range(self.row_num())])
+        return Matrix([[k * e for e in self.row_vector(i)] for i in range(self.row_num())])
 
     #矩阵和矩阵相乘
     def dot(self,other):
@@ -27,10 +27,10 @@ class Maxtrix():
             #矩阵和向量相乘
             assert self.col_num() == len(other),"The matrix col_num is not same as len of vector"
             return Vector([self.row_vector(i).dot(other) for i in range(self.row_num())])
-        if isinstance(other,Maxtrix):
+        if isinstance(other,Matrix):
             # 矩阵和矩阵相乘
             assert self.col_num() == other.row_num(), "The matrix1 col_num is not same as matrix2 row_num"
-            return Maxtrix([[self.row_vector(i).dot(other.col_vector(j)) for j in range(other.col_num())]
+            return Matrix([[self.row_vector(i).dot(other.col_vector(j)) for j in range(other.col_num())]
                             for i in range(self.row_num())])
     def __truediv__(self, k):
         return (1 / k)*self
@@ -40,11 +40,18 @@ class Maxtrix():
 
     def __neg__(self):
         return -1 * self
-
+    #零矩阵
     @classmethod
     def zero(cls,shape):
         r,c = shape
         return cls([[0] * c for _ in range(r)])
+    #单位矩阵
+    @classmethod
+    def identity(cls,n):
+        m = [[0]*n for _ in range(n)]
+        for i in range(n):
+            m[i][i] = 1
+        return cls(m)
 
     def __getitem__(self, pos):
         r,c = pos
@@ -72,10 +79,11 @@ class Maxtrix():
         return r * c
 
     def __repr__(self):
-        return "Matrix = ({})".format(self._values)
+        return "({})".format(self._values)
 
     __str__ = __repr__
 
     #矩阵的转置
     def T(self):
-        return Maxtrix([[e for e in self.col_vector(i)] for i in range(self.col_num())])
+        return Matrix([[e for e in self.col_vector(i)] for i in range(self.col_num())])
+

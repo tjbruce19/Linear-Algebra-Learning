@@ -1,8 +1,8 @@
-from linear_algebra.Matrix import Maxtrix
+from linear_algebra.Matrix import Matrix
 from linear_algebra.Vector import Vector
 
 if __name__=="__main__":
-    matrix = Maxtrix([[1,2,2],[3,4,4]])
+    matrix = Matrix([[1,2,2],[3,4,4]])
     print(matrix)
     print(matrix[0,1])
     print(matrix.shape())
@@ -11,10 +11,13 @@ if __name__=="__main__":
     print("col_vector：{}".format(type(matrix.col_vector(1))))
     print(len(matrix))
 
-    print(Maxtrix.zero((2,3)))
+    print(Matrix.zero((2,3)))
     vec = Vector([1,2,3])
-    matr1 = Maxtrix([[1,2,2],[3,4,4],[2,3,2]])
+    matr1 = Matrix([[1,2,2],[3,4,4],[2,3,2]])
     print(matrix.dot(vec))
     print(matrix.dot(matr1))
 
     print(matrix.T())
+
+    print(Matrix.identity(2))
+    print(matrix.dot(matr1.identity(3)))
