@@ -7,16 +7,24 @@ class Vector():
 
     def __iter__(self):
         return self._values.__iter__()
+
+    #返回一个list的副本
+    def return_list(self):
+        return self._values[:]
+
     #向量的模
     def norm(self):
         return math.sqrt(sum(e**2 for e in self))
+
     #向量的方向
     def normalize(self):
         return Vector(self._values) / self.norm()
+
     #两个向量的点乘
     def dot(self,other):
         assert len(self) == len(other), "ERROR:Length vector must be same."
         return sum(a * b for a,b in zip(self,other))
+
     #零向量
     @classmethod
     def zero(cls, dim):
@@ -30,9 +38,10 @@ class Vector():
         return Vector([k * e for e in self])
     #数量除法
     def __truediv__(self, k):
-        if k < ACCURACY:
+        if abs(k) < ACCURACY:
             raise ZeroDivisionError("k CANT BE Zero")
         return Vector([1/k * e for e in self])
+
     # 向量取正/负
     def __pos__(self):
         return Vector([1 * e for e in self])
@@ -44,6 +53,7 @@ class Vector():
     def __sub__(self, other):
         assert len(self) == len(other), "ERROR:Length vector must be same."
         return (Vector([a - b for a, b in zip(self, other)]))
+
     #向量的加法
     def __add__(self, other):
         assert len(self) == len(other),"ERROR:Length vector must be same."
