@@ -1,5 +1,5 @@
 import math
-from ._global import ACCURACY
+from ._global import is_zero
 class Vector():
 
     def __init__(self,lst):
@@ -38,7 +38,7 @@ class Vector():
         return Vector([k * e for e in self])
     #数量除法
     def __truediv__(self, k):
-        if abs(k) < ACCURACY:
+        if is_zero(k):
             raise ZeroDivisionError("k CANT BE Zero")
         return Vector([1/k * e for e in self])
 
