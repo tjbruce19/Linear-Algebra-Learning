@@ -9,8 +9,13 @@ class LinearSystem():
         assert A.row_num() == len(b), "matrix row num must be equal to length of vector"
         self._m = A.row_num()
         self._n = A.col_num()
+        self._b_col = 1
         #增广矩阵
-        self.Ab = [Vector(A.row_vector(i).return_list() + [b[i]]) for i in range(self._m)]
+        if isinstance(b,Vector):
+            self.Ab = [Vector(A.row_vector(i).return_list() + [b[i]]) for i in range(self._m)]
+        elif isinstance(b,Matrix):
+            self.Ab = [Vector(A.row_vector(i).return_list() + b.row_vector(i).return_list()) for i in range(self._m)]
+            self._b_col = b.col_num()
         #主元所在的列
         self.pivots = []
 
@@ -37,7 +42,7 @@ class LinearSystem():
                 self.Ab[i] = self.Ab[i] / self.Ab[i][j]
                 #消元
                 for k in range(i+1,self._m):
-                    self.Ab[k] = self.Ab[k] - self.Ab[i] * self.Ab[k][i]
+                    self.Ab[k] = self.Ab[k] - self.Ab[i] * self.Ab[k][j]
                 self.pivots.append(j)
                 i += 1
 
@@ -53,8 +58,27 @@ class LinearSystem():
         self._forward()
         self._backward()
         self.fancy_print()
+        for i in range(len(self.pivots),self._m):
+            for j in range(self._b_col):
+                col = -1 - j
+                if not is_zero(self.Ab[i][col]):
+                    return False
+        return True
 
     def fancy_print(self):
         for i in range(self._m):
             print(" ".join([str(self.Ab[i][j]) for j in range(self._n)]),end=" ")
             print("|" + str(self.Ab[i][-1]))
+
+
+def inv(A):
+
+    if A.col_num() != A.row_num():
+        return None
+
+    ls = LinearSystem(A,Matrix.identity(A.row_num()))
+    if not ls.goss_jordan_elimination():
+        return None
+
+    invA = [ls.Ab[i][A.row_num():] for i in range(A.row_num())]
+    return Matrix(invA)
