@@ -1,8 +1,9 @@
 from .Vector import Vector
 class Matrix():
 
-    def __init__(self,list):
-        self._values = [row[:] for row in list]
+    def __init__(self,input):
+        self._values = [row[:] if isinstance(row,list) else row.return_list() for row in input]
+
 
     def __add__(self, other):
         assert self.shape() == other.shape(),"The shape of {} and {} is not same".format\

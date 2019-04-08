@@ -1,6 +1,6 @@
 from linear_algebra.Vector import Vector
 from linear_algebra.Matrix import Matrix
-from linear_algebra.linearSystem import LinearSystem,inv
+from linear_algebra.linearSystem import LinearSystem,inv,lu
 
 if __name__ == "__main__":
     # A = Matrix([[1,2,4],[3,7,2],[2,3,3]])
@@ -17,3 +17,10 @@ if __name__ == "__main__":
     invA = inv(A)
     print(invA)
     print(invA.dot(A))
+
+    print("test LU")
+    A = Matrix([[1,2,3],[4,5,6],[3,-3,5]])
+    L,U = lu(A)
+    print(L)
+    print(U)
+
